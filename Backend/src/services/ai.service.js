@@ -119,8 +119,13 @@ Job Description: ${jobDescription}
 async function generatePdfFromHtml(htmlContent) {
     // const browser = await puppeteer.launch()
     const browser = await puppeteer.launch({
-        executablePath: puppeteer.executablePath(), // FORCE correct chrome
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-gpu',
+        ],
         headless: true
     })
     const page = await browser.newPage()
